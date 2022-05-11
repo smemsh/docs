@@ -89,10 +89,11 @@ Apply OTA and reclaim root
 
 - extract newest factory unzip and its nested image.zip
 - extract boot.img, vbmeta.img
-- download newest ota zip, no need to unzip
+- download any intermediary, and newest ota zip, no need to unzip
 - adb reboot recovery -> "no command"
 - hold power + once volup -> recovery -> apply update via adb
 - adb sideload ota.zip # do not reboot
+- repeat in sequence for any other otas # todo: can skip to latest one?
 - recovery -> reboot to bootloader
 - fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img
 - let the system boot
