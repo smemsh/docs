@@ -36,7 +36,7 @@ Preparing the device
 - developer options
 - unlock bootloader
 - authorize usb debugging
-- install or update magisk stable or canary >= 23012
+- install or update magisk stable or canary >= 24308
 - reboot if it asks
 
 
