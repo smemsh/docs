@@ -5,7 +5,7 @@ Initial Root and OTA Update Procedure for Google Pixel 6 Pro
 running Android 12.
 
 At least adb 31.0.3 is needed ie via google sdk install.
-Instructions were tested on an Ubuntu 20.04 host.
+Instructions were tested on an Ubuntu 22.04 host.
 
 .. contents::
 
@@ -38,6 +38,7 @@ Preparing the device
 - authorize usb debugging
 - install or update magisk canary >= 24308 with 4cff0384 patch (see git log)
 - rebuild magisk if necessary, sometimes patch isn't released as canary yet
+- last tested on magisk cacf8736 ie 25001 ie v25.0
 - reboot if it asks
 
 
