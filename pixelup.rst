@@ -48,6 +48,7 @@ Backup
 - install or update swift backup
 - run device + cloud backups
 - permissions check: adb shell; su; cd /sdcard; find -not -perm -040
+- remove any old backups no longer needed to free up space
 - adb pull /sdcard
 
 
