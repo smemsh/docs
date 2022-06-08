@@ -95,7 +95,8 @@ Apply OTA and reclaim root
 - extract boot.img, vbmeta.img
 - download any intermediary, and newest ota zip, no need to unzip
 - adb reboot recovery -> "no command"
-- hold power + once volup -> recovery -> apply update via adb
+- hold power + once volup -> release volup -> release power -> recovery
+- apply update from adb
 - adb sideload ota.zip # do not reboot
 - repeat in sequence for any other otas # todo: can skip to latest one?
 - recovery -> reboot to bootloader
