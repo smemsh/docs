@@ -47,6 +47,7 @@ Backup
 
 - install or update swift backup
 - run device + cloud backups
+- permissions check: adb shell; su; cd /sdcard; find -not -perm -040
 - adb pull /sdcard
 
 
