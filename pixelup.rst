@@ -21,7 +21,7 @@ Preparing the host
 - alternate: install android-sdk-platform-tools-common
 - add sdk bindir to executable path
 - add self to plugdev group and newgrp (ubuntu)
-- adb reboot-bootloader
+- ``adb reboot-bootloader``
 
 
 Device
@@ -47,9 +47,9 @@ Backup
 
 - install or update swift backup
 - run device + cloud backups
-- permissions check: adb shell; su; cd /sdcard; find -not -perm -040
+- perms check: ``adb shell``; ``su``; ``cd /sdcard``; ``find -not -perm -040``
 - remove any old backups no longer needed to free up space
-- adb pull /sdcard
+- ``adb pull /sdcard``
 
 
 Mkboot
@@ -59,7 +59,7 @@ Creating the patched Magisk from the factory boot.img
 
 - download and unzip factory.zip
 - unzip extracted device-build.zip
-- adb push boot.img /sdcard/boot.img # warning: /sdcard/ is bad
+- ``adb push boot.img /sdcard/boot.img`` # warning: /sdcard/ is bad
 - patch boot image with magisk
 - adb pull patched boot image
 
@@ -71,15 +71,15 @@ Initialize the device to stock at any factory release, and then
 root it with Magisk.  This is when first getting device.  Remove
 ``-w`` from the update command to not wipe.
 
-- adb reboot bootloader
-- fastboot flash bootloader bootloader*.img
-- fastboot reboot-bootloader
-- fastboot flash radio radio*.img
-- fastboot reboot-bootloader
-- fastboot --disable-verity --disable-verification --skip-reboot -w update image*.zip
+- ``adb reboot bootloader``
+- ``fastboot flash bootloader bootloader*.img``
+- ``fastboot reboot-bootloader``
+- ``fastboot flash radio radio*.img``
+- ``fastboot reboot-bootloader``
+- ``fastboot --disable-verity --disable-verification --skip-reboot -w update image*.zip``
 - voldown -> reboot to bootloader # important: wait for flash to finish
-- fastboot --slot=all flash boot boot-patched.img
-- fastboot reboot
+- ``fastboot --slot=all flash boot boot-patched.img``
+- ``fastboot reboot``
 - optionally copy apps and data from old phone
 - repeat `device`_
 - confirm su -> root
@@ -97,12 +97,12 @@ Apply OTA and reclaim root
 - adb reboot recovery -> "no command"
 - hold power + once volup -> release volup -> release power -> recovery
 - apply update from adb
-- adb sideload ota.zip # do not reboot
+- ``adb sideload ota.zip`` # do not reboot
 - repeat in sequence for any other otas # todo: can skip to latest one?
 - recovery -> reboot to bootloader
-- fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img
+- ``fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img``
 - let the system boot
 - repeat `mkboot`_
 - adb reboot bootloader
-- fastboot --slot=all flash boot boot-patched.img
+- ``fastboot --slot=all flash boot boot-patched.img``
 - recovery -> start
