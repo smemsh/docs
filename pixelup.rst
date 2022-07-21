@@ -38,7 +38,7 @@ Preparing the device
 - authorize usb debugging
 - install or update magisk canary >= 24308 with 4cff0384 patch (see git log)
 - rebuild magisk if necessary, sometimes patch isn't released as canary yet
-- last tested on magisk cacf8736 ie 25001 ie v25.0
+- last tested on magisk 9183a0a6 ie 25101 ie v25.1
 - reboot if it asks
 
 
