@@ -94,6 +94,7 @@ Apply OTA and reclaim root
 - extract newest factory unzip and its nested image.zip
 - extract boot.img, vbmeta.img
 - download any intermediary, and newest ota zip, no need to unzip
+- patch boot image following `mkboot`_ and adb pull it back
 - adb reboot recovery -> "no command"
 - hold power + once volup -> release volup -> release power -> recovery
 - apply update from adb
@@ -101,8 +102,23 @@ Apply OTA and reclaim root
 - repeat in sequence for any other otas # todo: can skip to latest one?
 - recovery -> reboot to bootloader
 - ``fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img``
-- let the system boot
-- repeat `mkboot`_
-- adb reboot bootloader
 - ``fastboot --slot=all flash boot boot-patched.img``
 - recovery -> start
+
+This sequence avoids any boot without root.  If there are boot
+issues encountered, flash vendor boot.img, boot without root,
+and try to make a new patched boot image from the new
+[now-ota-updated] Android and re-flash the boot partition.
+Early in Pixel 6 series, there was a time when Magisk needed to
+patch the boot image on the actual end-host that it would boot
+into, or the patched boot wouldn't work properly; this
+necessitated a second boot during update (first into non-root).
+However, this doesn't seem to be an issue any longer at this
+time, so patched boot can be flashed right after vbmeta, prior
+to first boot.
+
+For that matter, the whole update can be done within the Magisk
+app now also, by uninstalling Magisk (within Magisk), taking the
+OTA as a Software Update, and then re-installing Magisk to the
+inactive slot.  This method broke for a long time, but is now
+fixed.
