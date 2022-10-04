@@ -103,6 +103,22 @@ Apply OTA and reclaim root
 - ``fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img``
 - ``fastboot --slot=all flash boot boot-patched.img``
 - recovery -> start
+- if reboot into newly flashed slot was successful, repeat
+  sideload to inactive slot:
+    - ``adb reboot-sideload``
+    - ``adb sideload ota.zip``
+- **alternative:**
+  may also do things more manually, slot needs to boot once to
+  be marked good (note: untested):
+    - ``adb reboot-bootloader`` and
+    - ``fastboot --slot=other flash bootloader bootloader.img``
+    - ``fastboot getvar current-slot``
+    - ``fastboot getvar version-bootloader``
+    - ``fastboot set_active other``
+    - ``fastboot reboot bootloader``
+    - ``fastboot set_active other``
+    - ``fastboot reboot bootloader``
+    - ``fastboot reboot``
 
 This sequence avoids any boot without root.  If there are boot
 issues encountered, flash vendor boot.img, boot without root,
