@@ -36,7 +36,7 @@ Preparing the device
 - developer options
 - unlock bootloader
 - authorize usb debugging
-- last tested on magisk 9183a0a6 ie 25101 ie v25.1
+- last tested on magisk 38ab6858 ie 25203 ie v25.2
 - build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
