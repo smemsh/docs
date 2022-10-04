@@ -36,8 +36,8 @@ Preparing the device
 - developer options
 - unlock bootloader
 - authorize usb debugging
-- rebuild magisk if necessary, sometimes patch isn't released as canary yet
 - last tested on magisk 9183a0a6 ie 25101 ie v25.1
+- build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
 
