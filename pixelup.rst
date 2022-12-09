@@ -102,8 +102,8 @@ Apply OTA and reclaim root
 - ``fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img``
 - ``fastboot --slot=all flash boot boot-patched.img``
 - recovery -> start
-- if reboot into newly flashed slot was successful, repeat
-  sideload to inactive slot:
+- if reboot into newly flashed slot was successful, and if irreversible
+  upgrade (such as Android 12 to 13), repeat sideload to inactive slot:
     - ``adb reboot-sideload``
     - ``adb sideload ota.zip``
 - **alternative:**
