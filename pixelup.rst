@@ -4,8 +4,7 @@ Rooting a Pixel 6 Pro
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
 running Android 12.
 
-At least adb 31.0.3 is needed ie via google sdk install.
-Instructions were tested on an Ubuntu 22.04 host.
+Last tested with google SDK 33.0.3 and Ubuntu 22
 
 .. contents::
 
@@ -36,7 +35,7 @@ Preparing the device
 - developer options
 - unlock bootloader
 - authorize usb debugging
-- last tested on magisk 38ab6858 ie 25203 ie v25.2
+- last tested on magisk a468fd94 ie 25205 ie 34
 - build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
