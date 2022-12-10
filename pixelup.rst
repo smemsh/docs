@@ -2,7 +2,7 @@ Rooting a Pixel 6 Pro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
-running Android 12.
+running Android 13.
 
 Last tested with google SDK 33.0.3 and Ubuntu 22
 
