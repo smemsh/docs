@@ -18,7 +18,7 @@ Preparing the host
 - compare to https://developer.android.com/studio/releases/platform-tools
 - if needed, download, unzip android sdk platform tools
 - alternate: install android-sdk-platform-tools-common
-- add sdk bindir to executable path
+- add sdk bindir and libdir to executable path
 - add self to plugdev group and newgrp (ubuntu)
 - ``adb reboot-bootloader``
 
