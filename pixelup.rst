@@ -26,7 +26,7 @@ Preparing the host
 Device
 ------
 
-Preparing the device
+Preparing the device if first time
 
 - start
 - configure wifi
@@ -35,7 +35,10 @@ Preparing the device
 - developer options
 - unlock bootloader
 - authorize usb debugging
-- last tested on magisk d0c93842 ie 26101
+
+Jump here when upgrading
+
+- install/upgrade magisk, last tested on magisk d0c93842 ie 26101
 - build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
