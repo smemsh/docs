@@ -38,7 +38,7 @@ Preparing the device if first time
 
 Jump here when upgrading
 
-- install/upgrade magisk, last tested on magisk ee34f775 ie 26105
+- install/upgrade magisk app, last tested on magisk 0352ea2c ie 26302
 - build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
