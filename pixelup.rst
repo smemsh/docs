@@ -4,7 +4,7 @@ Rooting a Pixel 6 Pro
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
 running Android 14.
 
-Last tested with google SDK 34.0.5 on Ubuntu 22
+Last tested with google SDK 34.0.5 on Ubuntu 22, image uq1a.231205.015
 
 .. contents::
 
