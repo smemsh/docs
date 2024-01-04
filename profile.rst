@@ -1,5 +1,5 @@
-Profiling
-~~~~~~~~~
+Profiling with Google pprof
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Besides the venerable ``gprof``, there is a google tool which can be
 used even without recompile (as long as binary was compiled with -pg)::
