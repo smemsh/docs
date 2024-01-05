@@ -252,4 +252,31 @@ without needing to run as root::
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.gz *
 
+
+Changing pip interpreter line
+-----------------------------
+
+We want pip to be more specific about its interpreter::
+
+    $ for file in `find opt/*/bin/ -type f -executable`
+      do echo "${file##*/}: $(file -b $file)"
+      done | grep python.script
+
+    pip3: a /opt/python-3.9.18/bin/python script, ASCII text executable
+    pip3.9: a /opt/python-3.9.18/bin/python script, ASCII text executable
+
+for some reason it just refers to ``bin/python`` which actually
+does not exist.  Only ``python3`` and ``python3.9`` are present.
+These happen to match the specificity of interpreter expressed
+in the executable name so we will use that and replace it in the
+interpreter line::
+
+    $ for file in `find opt/*/bin/ -type f -executable`; do
+          if file $file | grep -q python.script; then
+              exe=${file##*/}
+              ver=$(sed -r 's,^[^[:digit:]]+,,' <<< "$exe")
+              sed -i "1 s,python\$,python$ver," $file
+          fi
+      done
+
 .
