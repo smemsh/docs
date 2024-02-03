@@ -155,11 +155,13 @@ checkout latest 1.1::
     $ git checkout OpenSSL_1_1_1w
     $ # "make distclean" if refreshing
 
-configure and build (replace version number)::
+configure (use ``/etc/pki/tls`` to share vendor config on rhel)::
 
     $ ./config \
       --prefix=/opt/openssl-1.1.1w \
       --openssldir=/etc/ssl no-shared
+
+build::
 
     $ make -j`nproc`
 
