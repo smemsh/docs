@@ -267,11 +267,10 @@ We want pip to be more specific about its interpreter::
     pip3: a /opt/python-3.9.18/bin/python script, ASCII text executable
     pip3.9: a /opt/python-3.9.18/bin/python script, ASCII text executable
 
-for some reason it just refers to ``bin/python`` which actually
-does not exist.  Only ``python3`` and ``python3.9`` are present.
-These happen to match the specificity of interpreter expressed
-in the executable name so we will use that and replace it in the
-interpreter line::
+for some reason it just refers to ``bin/python`` which actually does not
+exist.  Only ``python3`` and ``python3.9`` are present.  These happen to
+match the specificity of interpreter expressed in the executable name so
+we will use that and replace it in the interpreter line::
 
     $ for file in `find opt/*/bin/ -type f -executable`; do
           if file $file | grep -q python.script; then
