@@ -250,7 +250,7 @@ without needing to run as root::
     $ # inspect file tree, make sure not writing anywhere strange
 
     $ sudo chown -R root:root .
-    $ tar -caf ~/python-3.9.18_staticssl_amd64_opt_u$(
+    $ tar -caf ~/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.zst *
 
