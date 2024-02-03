@@ -301,4 +301,7 @@ Finally, extract it to the system location where it will reside (ie, in
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.zst
 
+.. todo: we can get rid of the first awk filter by using '-sr', but only
+   once u18 is retired, as it only works on u20+
+
 .
