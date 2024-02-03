@@ -174,7 +174,7 @@ install, inspect and package without needing to run as root::
     $ # inspect file tree, make sure not writing anywhere strange
 
     $ sudo chown -R root:root .
-    $ tar -zcpf ~/openssl-1.1.1w_static_amd64_opt.tar.gz *
+    $ tar -zcf ~/openssl-1.1.1w_static_amd64_opt.tar.gz *
 
 install on the build system so python build can link the static library::
 
@@ -250,7 +250,7 @@ without needing to run as root::
     $ # inspect file tree, make sure not writing anywhere strange
 
     $ sudo chown -R root:root .
-    $ tar -zcpf ~/python-3.9.18_staticssl_amd64_opt_u$(
+    $ tar -zcf ~/python-3.9.18_staticssl_amd64_opt_u$(
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.gz *
 
