@@ -294,4 +294,11 @@ write it in /opt/ as a system package::
       --owner=0 --group=0 \
       *
 
-Finally, copy the archive to wherever assets are stored.
+Finally, extract it to the system location where it will reside (ie, in
+``/opt``, which is the path embedded in the archive)::
+
+    $ sudo tar -C / -xapf ~/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
+          lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
+      ).tar.zst
+
+.
