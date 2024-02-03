@@ -167,14 +167,17 @@ build::
 
 install, inspect and package without needing to run as root::
 
-    $ sudo rm -rf /tmp/relocate
+    $ rm -rf /tmp/relocate
     $ mkdir /tmp/relocate
     $ make DESTDIR=/tmp/relocate install
     $ cd /tmp/relocate
-    $ # inspect file tree, make sure not writing anywhere strange
 
-    $ sudo chown -R root:root .
-    $ tar -caf ~/openssl-1.1.1w_static_amd64_opt.tar.zst *
+inspect file tree, make sure not writing anywhere strange, then create
+the archive::
+
+    $ tar -caf ~/openssl-3.0.13_static_amd64_opt.tar.zst \
+      --owner=0 --group=0 \
+      *
 
 install on the build system so python build can link the static library::
 
@@ -243,16 +246,14 @@ Installing Python in relocate root
 Installation is the same on all platforms: install, inspect and package
 without needing to run as root::
 
-    $ sudo rm -rf /tmp/relocate
+    $ rm -rf /tmp/relocate
     $ mkdir /tmp/relocate
     $ make DESTDIR=/tmp/relocate install
     $ cd /tmp/relocate
-    $ # inspect file tree, make sure not writing anywhere strange
 
-    $ sudo chown -R root:root .
-    $ tar -caf ~/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
-          lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
-      ).tar.zst *
+Make sure to inspect the file tree, to verify it's not writing
+anywhere/anything strange, since we will unarchive this from the root
+filesystem directory as the root user.
 
 
 Changing pip interpreter line
@@ -280,4 +281,17 @@ we will use that and replace it in the interpreter line::
           fi
       done
 
-.
+
+Creating the archive
+--------------------
+
+Make the package, ensuring the user is stored user is root since we will
+write it in /opt/ as a system package::
+
+    $ tar -caf ~/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
+          lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
+      ).tar.zst \
+      --owner=0 --group=0 \
+      *
+
+Finally, copy the archive to wherever assets are stored.
