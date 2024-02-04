@@ -84,7 +84,7 @@ loadable modules with extra dependencies looking like this::
       | grep -vE \
           -e linux-vdso \
           -e ld-linux-x86 \
-          -e 'lib(c|pthread|m|dl|crypt|freebl3|rt|uuid|nsl).so' \
+          -e 'lib(c|m|crypt|uuid).so' \
       | awk '/^.opt.python/ {
           deps = "";
           libline = $0;
