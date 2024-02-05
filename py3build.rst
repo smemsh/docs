@@ -3,11 +3,11 @@ Python 3 build instructions
 
 At present time we're using the 3.9 line.  This will be updated soon.
 
-We're making a build that's statically linked to OpenSSL (latest
-1.1.1w at time of writing), so we don't have to distribute a library
-dependency.
-
-Fortunately, both OpenSSL and Python builds are straightforward.
+Our build is statically linked to OpenSSL using the 3.0 LTS line, as
+1.1.1w was the 1.1 EOL release, in September 2023.  Latest 3.0 is 3.0.13
+at time of writing.  Linking statically means we only have to distribute
+Python itself, without the additional library dependency for systems
+that are slow to catch up or past their update lifetime.
 
 .. contents::
 
@@ -117,7 +117,9 @@ loadable modules with extra dependencies looking like this::
 
 We don't want all those imports to fail, so we have to build different
 versions (see table above), which differ in the above set of shared
-libraries.
+libraries.  Note that ``_ssl`` and ``_hashlib`` are not included above
+because we have made libssl/libcrypto link statically (see `SSL and
+Hashlib Setup`_ below)
 
 The Python main executable itself actually works on all of them; its
 link dependencies end up looking like this::
@@ -130,7 +132,7 @@ link dependencies end up looking like this::
   /lib64/ld-linux-x86-64.so.2
 
 without any OpenSSL dependency.  We need to build and maintain OpenSSL
-as well on the build system for the link (see below), but the 1.1
+as well on the build system for the link (see below), but the 3.0
 maintenance line that we use changes infrequently.
 
 Also note, on Ubuntu platforms, only one system needs to build OpenSSL,
@@ -138,7 +140,7 @@ and this library works on all OS versions linked statically, it works
 fine.  Only Python needs a different build on each host system.
 
 
-OpenSSL 1.1 build
+OpenSSL 3.0 build
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 get the source::
@@ -147,18 +149,18 @@ get the source::
     $ cd openssl
     $ # or git fetch/pull if refreshing
 
-checkout latest 1.1::
+checkout latest 3.0::
 
-    $ git tag -l | grep -Pi '^openssl.1.1.\d[a-z]$' | sort -V | tail -1
-    OpenSSL_1_1_1w
+    $ git tag -l | grep -Pi '^openssl.3.0.\d[a-z]$' | sort -V | tail -1
+    openssl-3.0.13
 
-    $ git checkout OpenSSL_1_1_1w
+    $ git checkout openssl-3.0.13
     $ # "make distclean" if refreshing
 
 configure (use ``/etc/pki/tls`` to share vendor config on rhel)::
 
-    $ ./config \
-      --prefix=/opt/openssl-1.1.1w \
+    $ ./Configure \
+      --prefix=/opt/openssl-3.0.13 \
       --openssldir=/etc/ssl no-shared
 
 build::
@@ -179,23 +181,58 @@ the archive::
       --owner=0 --group=0 \
       *
 
-install on the build system so python build can link the static library::
+back up ``/etc/ssl/openssl.cnf`` and friends if needed, either of::
 
-    $ sudo tar -C / -xapf ~/tarbin/openssl-1.1.1w_static_amd64_opt.tar.zst
+    $ sudo cp -ai /etc/ssl /etc/ssl.bak
+    $ sudo cp -ai /etc/ssl/openssl.cnf /etc/ssl/openssl.cnf.bak
 
-**build system note:**
-the tarball will write openssl config files to /etc/ssl/, but the only
-differences from older ubuntu defaults are:
+then install on the build system so the python binary can link with the
+static libssl and libcrypto, optionally extracting only ``opt/`` to
+avoid configuration clobber, so use either of::
 
-- does not set RANDFILE anymore
-- sets *CA:true* in *basicConstraints* to ``critical``
-- sets *signer_digest* to ``sha256`` (new)
-- changes *digests* from ``md5, sha1`` to ``sha1, sha256, sha384, sha512``
+    $ sudo tar -C / -xapf ~/tarbin/openssl-3.0.13_static_amd64_opt.tar.zst
+    $ sudo tar -C / -xapf ~/tarbin/openssl-3.0.13_static_amd64_opt.tar.zst opt
+
+Now we're ready for the Python build.
+
+
+Config file clobber note
+------------------------
+
+The tarball stores openssl config files to ``/etc/ssl/``.  The only
+changes in 1.1.1 ``/etc/ssl`` versus older ubuntu are that the former:
+
+- Does not set RANDFILE anymore.
+- Sets *CA:true* in *basicConstraints* to ``critical``.
+- Sets *signer_digest* to ``sha256`` (new).
+- Changes *digests* from ``md5, sha1`` to ``sha1, sha256, sha384,
+  sha512``.
+
+The 3.0 line makes the following additional changes:
+
+- Removes *nsComment* directive and all [commented out] *ns* values.
+- Adds a ``openssl_conf = openssl_init`` to the default section, and
+  various additional section indirections that hang off it, but end up
+  containing only commented-out values.  The behavior of 3.0 is (from
+  *config(5)* manual):
+
+    The OpenSSL configuration looks up the value of ``openssl_conf`` in
+    the default section and takes that as the name of a section that
+    specifies how to configure any modules in the library
+
+  OpenSSL prior to 3.0 ignores unknown directives and sections (see
+  https://github.com/openssl/openssl/pull/13310), so this should be
+  backwards compatible with 1.1.1.
+
+- Adds ``config_diagnostics = 1``, which does in fact exit on config
+  errors.  So future updates could potentially be problematic, but the
+  3.0 config file will work fine on both 1.1.1 and 3.0 versions.
 
 If the build system's ``openssl.cnf`` is customized (or the distro's
 version shall remain untouched), only ``opt`` dir should be extracted
-from the tarball, but the stock config seems to work fine.  The library
-need only be installed on the build system.
+from the tarball, but the stock config seems to work fine.
+
+The library itself need only be installed on the build system.
 
 
 Python 3.9 build
@@ -228,8 +265,39 @@ configure and build (replace version numbers)::
         --enable-optimizations \
         --disable-shared \
         --disable-ipv6 \
-        --with-openssl=/opt/openssl-1.1.1w \
+        --with-openssl=/opt/openssl-3.0.13 \
         --with-ensurepip=install
+
+
+SSL and Hashlib Setup
+---------------------
+
+While Python linked to our own ``openssl-1.1.1w`` seemed to correctly
+link statically just using the above ``configure`` flags, the
+openssl-3.0 line seems to do a shared link.  It seems that
+``--with-openssl`` is actually only intended to specify the place to
+look for dynamic linkage at runtime, so if shared objects aren't
+provided there, it will link against the system versions and not our
+custom build openssl.  It remains unclear why this method worked with
+openssl-1.1.1 but not openssl-3.0
+
+We have to force the issue by placing the following file after
+``configure`` as ``Modules/Setup.local``::
+
+  SSL = /opt/openssl-3.0.13
+
+  _ssl _ssl.c \
+          -I$(SSL)/include/openssl \
+          -L$(SSL)/lib64 -l:libssl.a -l:libcrypto.a -l:libz.a
+
+  _hashlib _hashopenssl.c \
+          -I$(SSL)/include/openssl -L$(SSL)/lib64 -l:libcrypto.a
+
+This forces link with the ``ar`` archive rather than the ``so`` shared
+object.  These imports are normally "dynload" and would be shown in the
+output from script shown in `Platform Variants for Dynloads`_.
+Specifying the override in ``Setup.local`` makes them statically link
+into the main Python executable.
 
 
 Building on Ubuntu 18+
@@ -288,7 +356,7 @@ Creating the archive
 Make the package, ensuring the user is stored user is root since we will
 write it in /opt/ as a system package::
 
-    $ tar -caf ~/tarbin/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
+    $ tar -caf ~/tarbin/python-3.9.18_staticssl-3.0.13_amd64_opt_u$(
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.zst \
       --owner=0 --group=0 \
@@ -297,7 +365,7 @@ write it in /opt/ as a system package::
 Finally, extract it to the system location where it will reside (ie, in
 ``/opt``, which is the path embedded in the archive)::
 
-    $ sudo tar -C / -xapf ~/tarbin/python-3.9.18_staticssl-1.1.1w_amd64_opt_u$(
+    $ sudo tar -C / -xapf ~/tarbin/python-3.9.18_staticssl-3.0.13_amd64_opt_u$(
           lsb_release -r | awk '{print $2}' | awk -F . '{print $1}'
       ).tar.zst
 
