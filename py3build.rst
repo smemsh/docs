@@ -161,7 +161,11 @@ configure (use ``/etc/pki/tls`` to share vendor config on rhel)::
 
     $ ./Configure \
       --prefix=/opt/openssl-3.0.13 \
-      --openssldir=/etc/ssl no-shared
+      --openssldir=/etc/ssl \
+      enable-ktls \
+      zlib \
+      no-shared \
+      ;
 
 build::
 
