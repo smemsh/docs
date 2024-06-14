@@ -4,7 +4,12 @@ Rooting a Pixel 6 Pro
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
 running Android 14.
 
-Last tested with google SDK 35.0.1 on Ubuntu 22, image ap1a.240405.002
+Last tested with
+
+| google SDK ``35.0.1``
+| Ubuntu 22
+| image ``ap1a.240405.002``
+| magisk ``81658d45``, ie ``27002``
 
 .. contents::
 
@@ -38,7 +43,7 @@ Preparing the device if first time
 
 Jump here when upgrading
 
-- install/upgrade magisk app, last tested on magisk 81658d45 ie 27002
+- install/upgrade magisk app
 - build magisk if necessary, sometimes patches aren't in released canary
 - reboot if it asks
 
