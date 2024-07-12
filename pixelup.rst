@@ -8,8 +8,8 @@ Last tested with
 
 | google SDK ``35.0.1``
 | Ubuntu 22
-| image ``ap2a.240605.024``
-| magisk ``81658d45``, ie ``27002``
+| image ``ap2a.240705.004``
+| magisk ``45fa1fce``, ie ``27003``
 
 .. contents::
 
