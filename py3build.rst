@@ -151,7 +151,7 @@ get the source::
 
 checkout latest 3.0::
 
-    $ git tag -l | grep -Pi '^openssl.3.0.\d[a-z]$' | sort -V | tail -1
+    $ git tag -l | grep -Pi '^openssl.3.0.\d+[a-z]?$' | sort -V | tail -1
     openssl-3.0.13
 
     $ git checkout openssl-3.0.13
