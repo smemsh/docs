@@ -152,15 +152,15 @@ get the source::
 checkout latest 3.0::
 
     $ git tag -l | grep -Pi '^openssl.3.0.\d+[a-z]?$' | sort -V | tail -1
-    openssl-3.0.13
+    openssl-3.0.14
 
-    $ git checkout openssl-3.0.13
+    $ git checkout openssl-3.0.14
     $ # "make distclean" if refreshing
 
 configure (use ``/etc/pki/tls`` to share vendor config on rhel)::
 
     $ ./Configure \
-      --prefix=/opt/openssl-3.0.13 \
+      --prefix=/opt/openssl-3.0.14 \
       --openssldir=/etc/ssl \
       enable-ktls \
       zlib \
@@ -181,7 +181,7 @@ inspect that file tree, make sure not writing anywhere strange, then create
 the archive::
 
     $ tar -C /tmp/relocate \
-      -caf ~/tarbin/openssl-3.0.13_static_amd64_opt.tar.zst \
+      -caf ~/tarbin/openssl-3.0.14_static_amd64_opt.tar.zst \
       --owner=0 --group=0 \
       etc opt
 
