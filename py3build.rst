@@ -176,14 +176,14 @@ install, inspect and package without needing to run as root::
     $ rm -rf /tmp/relocate
     $ mkdir /tmp/relocate
     $ make DESTDIR=/tmp/relocate install
-    $ cd /tmp/relocate
 
-inspect file tree, make sure not writing anywhere strange, then create
+inspect that file tree, make sure not writing anywhere strange, then create
 the archive::
 
-    $ tar -caf ~/tarbin/openssl-3.0.13_static_amd64_opt.tar.zst \
+    $ tar -C /tmp/relocate \
+      -caf ~/tarbin/openssl-3.0.13_static_amd64_opt.tar.zst \
       --owner=0 --group=0 \
-      *
+      etc opt
 
 back up ``/etc/ssl/openssl.cnf`` and friends if needed, either of::
 
