@@ -122,7 +122,14 @@ Now import the commits to the destination and pick them::
 Since these will all be topologically at the end of history, but
 we want to have them show up in git log at their rightful place in
 history chronologically, we can copy the author date to the committer
-date and reorder the commits::
+date and reorder the commits.  The ``filter-repo`` tool has a dictionary
+with fields from the commit::
+
+  git filter-repo --force \
+    --commit-callback $'from pprint import pprint\npprint(commit.__dict__)'
+
+We can modify these by assigning.  In this case we will fix up the
+committer date to match the author date::
 
   git filter-repo --force --commit-callback \
     'commit.committer_date = commit.author_date' \
