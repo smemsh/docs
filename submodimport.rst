@@ -91,7 +91,8 @@ around to note all the commits after it that will need modification::
 
   git log --oneline .gitmodules | less -+F
 
-Mark each one for edit and hand-remove the .gitmodules reference::
+Mark the .gitmodules addition as a drop, and each subsequent one for
+edit so as to hand-remove the .gitmodules reference::
 
   git rebase -i $firstcommit^
   git rebase --continue
