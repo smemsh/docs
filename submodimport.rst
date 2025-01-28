@@ -106,9 +106,16 @@ Move the commits into the prefix ahead of time, so they won't need
 
   git filter-repo --force --path-rename :path/to/prefix/ # trailing slash!
 
-Identify the commit range we want to pick, which is all commits in
-source repository.  Assuming we are at master branch tip, and the
-repo has only one root commit (has not been subtree merged before)::
+Also add new summary line prefixes to log messages here if necessary,
+using either ``git-filter-repo --replace-message`` expressions for a
+large number of them, or with an interactive rebase to mark some of them
+and do an amendment by hand.  TODO PUT EXAMPLE HERE::
+
+  <example> TODO
+
+Next, identify the commit range we want to pick, which is all commits in
+source repository.  Assuming we are at master branch tip, and the repo has
+only one root commit (has not been subtree merged before)::
 
   firstcommit=$(git rev-list --max-parents=0 @)
   lastcommit=$(git rev-list @ | head -1)
@@ -117,32 +124,41 @@ Now import the commits to the destination and pick them::
 
   cd ~/src/destrepo
   git remote add srcrepo ~/src/srcrepo
-  git fetch srcrepo
-  git pick $firstcommit..$lastcommit
+  git fetch --no-tags srcrepo
+  git cherry-pick $(git rev-list $firstcommit $lastcommit)
 
-Since these will all be topologically at the end of history, but
-we want to have them show up in git log at their rightful place in
-history chronologically, we can copy the author date to the committer
-date and reorder the commits.  The ``filter-repo`` tool has a dictionary
-with fields from the commit::
+**Note the new commit hash at the top** after the first pick, as this is
+the start of the new imported history and we need it for the next step::
+
+  firstpick=<hash>
+
+Since these picked commits will all be topologically at the end of the
+history, but we actually want to have them show up in the git log at
+their rightful place in history chronologically (adjacent to other
+commits that happened at the time, rather than appended onto the end),
+we can copy the author date to the committer date and reorder the
+commits.
+
+The ``filter-repo`` tool has a dictionary with fields from the commit,
+which can be shown like so::
 
   git filter-repo --force \
     --commit-callback $'from pprint import pprint\npprint(commit.__dict__)'
 
-We can modify these by assigning.  In this case we will fix up the
+We can modify these by assignment.  In this case we will fix up the
 committer date to match the author date::
 
-  git filter-repo --force --commit-callback \
+  git filter-repo --force --partial --commit-callback \
     'commit.committer_date = commit.author_date' \
-    --refs $firstcommit^..
+    --refs $firstpick^
 
   git log --format='%H %at %s' \
   | sort -nk2,2 | field 1,3- | sed 's,^,pick ,' \
-  > rebase-todo
+  >| rebase-todo
 
 Now we do an interactive rebase, but edit the todo list after initiating
 (this also gives us a chance to do any hand-swaps of position or drop
-commits, or mark for rename, etc)::
+commits, or mark for rewording to add prefixes, etc)::
 
   git rebase -i --root
   <delete todo list>
@@ -154,4 +170,5 @@ Conclusion
 
 At the end of this manual technique, the history should be linear,
 including both projects, ordered chronologically by author date, and
-include the prefix-pathed source repository files, with no more submodule.
+include the prefix-pathed source repository files, with no more
+submodule, and no merge commit pollution.
