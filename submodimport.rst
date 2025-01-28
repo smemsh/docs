@@ -104,7 +104,7 @@ Now enter the source repository::
 Move the commits into the prefix ahead of time, so they won't need
 "changing" in destination repository::
 
-  git filter-repo --force --path-rename :path/to/prefix
+  git filter-repo --force --path-rename :path/to/prefix/ # trailing slash!
 
 Identify the commit range we want to pick, which is all commits in
 source repository.  Assuming we are at master branch tip, and the
