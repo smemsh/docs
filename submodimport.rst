@@ -64,10 +64,10 @@ the imported files after a rebase.
 Cherry-pick gets the job done
 ------------------------------------------------------------------------------
 
-We can instead use a manual process to make a new history by
-removing submodule paths and ``.gitmodules`` changes in the destination
-repo, pre-altering the prefix point in the source repo, and then picking
-all the commits therefrom
+We can instead use a manual process to make a new history by removing
+submodule paths and ``.gitmodules`` changes in the destination repo,
+pre-altering the prefix point in the source repo, and then picking all
+the commits therefrom
 
 First, make backups before starting::
 
@@ -86,8 +86,8 @@ Remove all traces in the history::
 
   git filter-repo --force --partial --invert-paths --path path/to/prefix
 
-Find the first commit that adds a reference to path/to/prefix.
-keep around to note all the commits after it that will need modification::
+Find the first commit that adds a reference to path/to/prefix.  Keep
+around to note all the commits after it that will need modification::
 
   git log --oneline .gitmodules | less -+F
 
