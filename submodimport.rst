@@ -152,7 +152,7 @@ committer date to match the author date::
 
   git filter-repo --force --partial --commit-callback \
     'commit.committer_date = commit.author_date' \
-    --refs $firstpick^
+    --refs $firstpick^..
 
   git log --format='%H %at %s' \
   | sort -nk2,2 | field 1,3- | sed 's,^,pick ,' \
