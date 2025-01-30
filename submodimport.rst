@@ -109,9 +109,11 @@ Move the commits into the prefix ahead of time, so they won't need
 Also add new summary line prefixes to log messages here if necessary,
 using either ``git-filter-repo --replace-message`` expressions for a
 large number of them, or with an interactive rebase to mark some of them
-and do an amendment by hand.  TODO PUT EXAMPLE HERE::
+and do an amendment by hand.  Example adds ``initpgp:`` prefix to
+commits that are written in my feature/chore/bug/nocode/deletion
+single-character prefix scheme (ie, first two chars preserved)::
 
-  <example> TODO
+  git filter-repo --replace-message <(echo 'regex:^(..)==>\1initpgp: ')
 
 Next, identify the commit range we want to pick, which is all commits in
 source repository.  Assuming we are at master branch tip, and the repo has
