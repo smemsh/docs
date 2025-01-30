@@ -127,7 +127,7 @@ Now import the commits to the destination and pick them::
   cd ~/src/destrepo
   git remote add srcrepo ~/src/srcrepo
   git fetch --no-tags srcrepo
-  git cherry-pick $(git rev-list $firstcommit $lastcommit)
+  git cherry-pick $(git rev-list --reverse $firstcommit $lastcommit)
 
 **Note the new commit hash at the top** after the first pick, as this is
 the start of the new imported history and we need it for the next step::
