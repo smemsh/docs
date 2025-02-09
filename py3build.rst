@@ -50,23 +50,6 @@ Otherwise, it will build, but missing key features and not all standard
 ``import`` statements will work with the resulting Python.
 
 
-Don't build NIS
----------------
-
-We don't want NIS support because it requires a lot of shared libraries,
-it's deprecated in glibc, and it's removed from Python in 3.12.
-Unfortunately the ``setup.py`` autodetects it based on header file pnd
-library presence, with no override available, and no related configure
-options.  We cannot remove ``libtirpc3``, ``libtirpc-dev``, or ``glibc``
-which includes files it searches for.  So best to just edit
-``detect_nis()`` and have it simply do::
-
-    self.missing.append('nis')
-    return
-
-This will ensure it doesn't get built.
-
-
 Platform Variants for Dynloads
 ------------------------------
 
@@ -138,6 +121,23 @@ maintenance line that we use changes infrequently.
 Also note, on Ubuntu platforms, only one system needs to build OpenSSL,
 and this library works on all OS versions linked statically, it works
 fine.  Only Python needs a different build on each host system.
+
+
+Don't build NIS
+---------------
+
+We don't want NIS support because it requires a lot of shared libraries,
+it's deprecated in glibc, and it's removed from Python in 3.12.
+Unfortunately the ``setup.py`` autodetects it based on header file pnd
+library presence, with no override available, and no related configure
+options.  We cannot remove ``libtirpc3``, ``libtirpc-dev``, or ``glibc``
+which includes files it searches for.  So best to just edit
+``detect_nis()`` and have it simply do::
+
+    self.missing.append('nis')
+    return
+
+This will ensure it doesn't get built.
 
 
 OpenSSL 3.0 build
@@ -333,12 +333,12 @@ Changing pip interpreter line
 
 We want pip to be more specific about its interpreter::
 
-    $ for file in `find opt/*/bin/ -type f -executable`
-      do echo "${file##*/}: $(file -b $file)"
-      done | grep python.script
+    $ for file in `find opt/*/bin/ -type f -executable`; do
+          match="$(head -1 $file | grep -I '^#!.*/python$')" &&
+              echo ${file##*/}: $match; done
 
-    pip3: a /opt/python-3.9.18/bin/python script, ASCII text executable
-    pip3.9: a /opt/python-3.9.18/bin/python script, ASCII text executable
+    pip3.9: #!/opt/python-3.9.18/bin/python
+    pip3: #!/opt/python-3.9.18/bin/python
 
 for some reason it just refers to ``bin/python`` which actually does not
 exist.  Only ``python3`` and ``python3.9`` are present.  These happen to
@@ -346,11 +346,11 @@ match the specificity of interpreter expressed in the executable name so
 we will use that and replace it in the interpreter line::
 
     $ for file in `find opt/*/bin/ -type f -executable`; do
-          if file $file | grep -q python.script; then
-              exe=${file##*/}
-              ver=$(sed -r 's,^[^[:digit:]]+,,' <<< "$exe")
-              sed -i "1 s,python\$,python$ver," $file
-          fi
+          match="$(head -1 $file | grep -I '^#!.*/python$')" && {
+              exe=${file##*/};
+              ver=$(sed -r 's,^[^[:digit:]]+,,' <<< "$exe");
+              sed -i "1 s,python\$,python$ver," $file;
+          };
       done
 
 
@@ -377,3 +377,64 @@ Finally, extract it to the system location where it will reside (ie, in
    once u18 is retired, as it only works on u20+
 
 .
+
+::
+
+  array:               libc.so.6
+  _asyncio:            libc.so.6
+  audioop:             libm.so.6      libc.so.6
+  _bisect:             libc.so.6
+  _blake2:             libc.so.6
+  cmath:               libm.so.6      libc.so.6
+  _codecs_cn:          libc.so.6
+  _codecs_hk:          libc.so.6
+  _codecs_iso2022:     libc.so.6
+  _codecs_jp:          libc.so.6
+  _codecs_kr:          libc.so.6
+  _codecs_tw:          libc.so.6
+  _crypt:              libcrypt.so.1  libc.so.6
+  _csv:                libc.so.6
+  _ctypes_test:        libm.so.6      libc.so.6
+  _datetime:           libm.so.6      libc.so.6
+  _decimal:            libm.so.6      libc.so.6
+  _elementtree:        libc.so.6
+  fcntl:               libc.so.6
+  grp:                 libc.so.6
+  _json:               libc.so.6
+  _lsprof:             libc.so.6
+  math:                libm.so.6      libc.so.6
+  _md5:                libc.so.6
+  mmap:                libc.so.6
+  _multibytecodec:     libc.so.6
+  _multiprocessing:    libc.so.6
+  _opcode:             libc.so.6
+  ossaudiodev:         libc.so.6
+  parser:              libc.so.6
+  _pickle:             libc.so.6
+  _posixshmem:         libc.so.6
+  _posixsubprocess:    libc.so.6
+  pyexpat:             libc.so.6
+  _queue:              libc.so.6
+  _random:             libc.so.6
+  resource:            libc.so.6
+  select:              libc.so.6
+  _sha1:               libc.so.6
+  _sha256:             libc.so.6
+  _sha3:               libc.so.6
+  _sha512:             libc.so.6
+  _socket:             libc.so.6
+  spwd:                libc.so.6
+  _struct:             libc.so.6
+  syslog:              libc.so.6
+  termios:             libc.so.6
+  _testbuffer:         libc.so.6
+  _testcapi:           libc.so.6
+  _testinternalcapi:   libc.so.6
+  _testmultiphase:     libc.so.6
+  unicodedata:         libc.so.6
+  _uuid:               libuuid.so.1   libc.so.6
+  xxlimited:           libc.so.6
+  _xxsubinterpreters:  libc.so.6
+  _xxtestfuzz:         libc.so.6
+  _zoneinfo:           libc.so.6
+
