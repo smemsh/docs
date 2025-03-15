@@ -56,6 +56,10 @@ Backup
 - perms check: ``adb shell``; ``su``; ``cd /sdcard``; ``find -not -perm -040``
 - remove any old backups no longer needed to free up space
 - ``adb pull /sdcard``
+- to avoid the need for duplicate space before compression::
+
+    adb shell -T su -c 'tar -C /sdcard -zcf - .' \
+    | gzip -dc | pv -bra | zstd > `today`.tar.zst
 
 
 Mkboot
