@@ -8,7 +8,7 @@ Last tested with
 
 | google SDK ``35.0.2``
 | Ubuntu 22
-| image ``ap4a.250205.002``
+| image ``bp1a.250305.019``
 | magisk ``b62835cbe``, ie ``28102``
 
 .. contents::
