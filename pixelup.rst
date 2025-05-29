@@ -58,8 +58,10 @@ Backup
 - ``adb pull /sdcard``
 - to avoid the need for duplicate space before compression::
 
-    adb shell -T su -c 'tar -C /sdcard -zcf - .' \
-    | gzip -dc | pv -bra | zstd > `today`.tar.zst
+    adb shell -T su -c 'tar -C /sdcard -cf - .' \
+    | pv -bra | zstdmt > `today`.tar.zst
+
+..
 
 
 Mkboot
