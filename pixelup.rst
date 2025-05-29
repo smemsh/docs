@@ -121,6 +121,8 @@ Apply OTA and reclaim root
 
     - ``adb reboot-sideload``
     - ``adb sideload ota.zip``
+    - reflash vbmeta and boot partition as above (we wrote to all slots,
+      but the sideload probably overwrite it again [?])
 
 - **alternative:**
   may also do things more manually, slot needs to boot once to
