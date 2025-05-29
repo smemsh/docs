@@ -118,11 +118,14 @@ Apply OTA and reclaim root
 - recovery -> start
 - if reboot into newly flashed slot was successful, and if irreversible
   upgrade (such as Android 12 to 13), repeat sideload to inactive slot:
+
     - ``adb reboot-sideload``
     - ``adb sideload ota.zip``
+
 - **alternative:**
   may also do things more manually, slot needs to boot once to
   be marked good (note: untested):
+
     - ``adb reboot-bootloader`` and
     - ``fastboot --slot=other flash bootloader bootloader.img``
     - ``fastboot getvar current-slot``
