@@ -6,10 +6,10 @@ running Android 15.
 
 Last tested with
 
-| google SDK ``35.0.2``
+| google SDK ``36.0.0``
 | Ubuntu 22
-| image ``bp1a.250305.019``
-| magisk ``b62835cbe``, ie ``28102``
+| image ``bp1a.250505.005``
+| magisk ``b1dc47a0``, ie ``29001``
 
 .. contents::
 
