@@ -105,7 +105,7 @@ Apply OTA and reclaim root
 
 - extract newest factory unzip and its nested image.zip
 - extract boot.img, vbmeta.img
-- download any intermediary, and newest ota zip, no need to unzip
+- download newest full ota zip (skipped months not needed), no need to unzip
 - patch boot image following `mkboot`_ and adb pull it back
 - adb reboot recovery -> "no command"
 - hold power + once volup -> release volup -> release power -> recovery
