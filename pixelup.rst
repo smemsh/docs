@@ -87,7 +87,11 @@ root it with Magisk.  This is when first getting device.  Remove
 - ``fastboot reboot-bootloader``
 - ``fastboot flash radio radio*.img``
 - ``fastboot reboot-bootloader``
-- ``fastboot --disable-verity --disable-verification --skip-reboot -w update image*.zip``
+- flash with wipe (or remove ``-w`` to not wipe)::
+
+    fastboot --disable-verity --disable-verification \
+       --skip-reboot -w update image*.zip``
+
 - voldown -> reboot to bootloader # important: wait for flash to finish
 - ``fastboot --slot=all flash boot boot-patched.img``
 - ``fastboot reboot``
@@ -112,8 +116,12 @@ Apply OTA and reclaim root
 - ``adb sideload ota.zip`` # do not reboot
 - repeat in sequence for any other otas # todo: can skip to latest one?
 - recovery -> reboot to bootloader
-- ``fastboot --disable-verity --disable-verification --slot=all flash vbmeta vbmeta.img``
-- ``fastboot --slot=all flash boot boot-patched.img``
+- write metadata for verified boot, and the magisk-patched boot image::
+
+    fastboot --disable-verity --disable-verification \
+      --slot=all flash vbmeta vbmeta.img
+    fastboot --slot=all flash boot boot-patched.img
+
 - recovery -> start
 - if reboot into newly flashed slot was successful, and if irreversible
   upgrade (such as Android 12 to 13), repeat sideload to inactive slot:
