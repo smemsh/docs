@@ -7,8 +7,8 @@ running Android 15.
 Last tested with
 
 | google SDK ``36.0.0``
-| Ubuntu 22
-| image ``bp2a.250605.031.a5``
+| Ubuntu 24
+| image ``bp3a.250905.014``
 | magisk ``30200``
 
 .. contents::
