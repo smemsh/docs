@@ -6,10 +6,10 @@ running Android 16.
 
 Last tested with
 
-| google SDK ``36.0.0``
+| google SDK ``36.0.2``
 | Ubuntu 24
-| image ``bp4a.251205.006``
-| magisk ``30600``
+| image ``cp1a.260305.018``
+| magisk ``30700``
 
 .. contents::
 
