@@ -2,7 +2,7 @@ Rooting a Pixel 6 Pro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
-running Android 15.
+running Android 16.
 
 Last tested with
 
