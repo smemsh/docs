@@ -6,10 +6,19 @@ running Android 16.
 
 Last tested with
 
-| google SDK ``36.0.2``
+| google SDK ``36.0.2`` (see note!)
 | Ubuntu 24
 | image ``cp1a.260305.018``
 | magisk ``30700``
+
+**note:** 36.0.2 did not work to flash vbmeta! got::
+
+   fastboot: error: Failed to find AVB_MAGIC at offset: 0
+
+Downgrading to platform-tools 34.0.4 worked, see
+https://github.com/gogopowerjackets/razer-edge-gsi/issues/1
+
+.. (see also task 802371b0)
 
 .. contents::
 
