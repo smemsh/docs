@@ -1,12 +1,9 @@
 Operator precedence
 ==============================================================================
 
-from https://docs.python.org/3/reference/expressions.html#operator-precedence
+https://docs.python.org/3/reference/expressions.html#operator-precedence
 
-highest to lowest
-
-| exponentiation, conditionals: right-left chaining
-| everything else: left-right
+highest-lowest.  left-right chaining except: conditionals, exponents.
 
 ::
 
