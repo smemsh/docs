@@ -2,21 +2,25 @@ Rooting a Pixel 6 Pro
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Initial Root and OTA Update Procedure for Google Pixel 6 Pro
-running Android 16.
+running Android 12-16 ("raven" model).
 
-Last tested with
+As of Android 17, we now use Magisk only for initial root, then
+install KSU and update via OTA + inactive slot flash.  Thus,
+these instructions are not frequently refreshed anymore.  Last
+tested sideload upgrades with:
 
-| google SDK ``36.0.2`` (see note!)
+| google SDK ``37.0.1`` (``34.0.4`` for vbmeta flash)
 | Ubuntu 24
-| image ``cp1a.260305.018``
+| image ``cp1a.260405.005``
 | magisk ``30700``
 
-**note:** 36.0.2 did not work to flash vbmeta! got::
+**note:** starting with 36.0.2, adb will not flash vbmeta::
 
    fastboot: error: Failed to find AVB_MAGIC at offset: 0
 
-Downgrading to platform-tools 34.0.4 worked, see
-https://github.com/gogopowerjackets/razer-edge-gsi/issues/1
+This may be confined to earlier models like Pixel 6 Pro
+(unknown/untested).  Downgrading to platform-tools 34.0.4 works,
+see https://github.com/gogopowerjackets/razer-edge-gsi/issues/1
 
 .. (see also task 802371b0)
 
